@@ -5,6 +5,8 @@
 
 package com.android.vending.licensing;
 
+import com.google.android.gms.common.BuildConfig
+
 import static com.android.vending.licensing.LicenseChecker.LICENSED;
 
 import android.accounts.Account;
@@ -48,9 +50,9 @@ public class LicensingService extends Service {
 
     private static final String KEY_V2_RESULT_JWT = "LICENSE_DATA";
 
-    private static final Uri PROFILE_PROVIDER = Uri.parse("content://com.google.android.gms.microg.profile");
+    private static final Uri PROFILE_PROVIDER = Uri.parse("content://" + BuildConfig.BASE_PACKAGE_NAME + ".android.gms.microg.profile");
 
-    private static final Uri CHECKIN_SETTINGS_PROVIDER = Uri.parse("content://com.google.android.gms.microg.settings/check-in");
+    private static final Uri CHECKIN_SETTINGS_PROVIDER = Uri.parse("content://" + BuildConfig.BASE_PACKAGE_NAME + ".android.gms.microg.settings/check-in");
 
     private final ILicensingService.Stub mLicenseService = new ILicensingService.Stub() {
 

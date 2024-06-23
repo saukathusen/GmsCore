@@ -21,6 +21,7 @@ import com.google.android.gms.potokens.internal.IPoTokensService
 import com.google.android.gms.potokens.internal.ITokenCallbacks
 import org.microg.gms.BaseService
 import org.microg.gms.common.GmsService
+import org.microg.gms.common.PackageSpoofUtils
 import org.microg.gms.profile.ProfileManager
 
 const val TAG = "PoTokens"
@@ -58,7 +59,11 @@ class PoTokensServiceImpl(
         lifecycleCoroutineScope.launchWhenCreated {
             Log.d(TAG, "responseStatusToken start")
             runCatching {
-                val bytes = PoTokenHelper.get(context).callPoToken(context, packageName, bArr)
+                val bytes = PoTokenHelper.get(context).callPoToken(
+                    context, 
+                    PackageSpoofUtils.spoofPackageName(context.getPackageManager(), packageName), 
+                    bArr
+                )
                 Log.d(TAG, "responseStatusToken result: ${bytes.size}")
                 call.responseToken(Status.SUCCESS, PoToken(bytes))
             }

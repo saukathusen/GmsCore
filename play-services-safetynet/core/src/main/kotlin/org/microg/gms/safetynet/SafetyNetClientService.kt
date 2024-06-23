@@ -31,6 +31,7 @@ import kotlinx.coroutines.withContext
 import org.microg.gms.BaseService
 import org.microg.gms.common.GmsService
 import org.microg.gms.common.GooglePackagePermission
+import org.microg.gms.common.PackageSpoofUtils
 import org.microg.gms.common.PackageUtils
 import org.microg.gms.droidguard.core.DroidGuardPreferences
 import org.microg.gms.droidguard.core.DroidGuardResultCreator
@@ -88,7 +89,10 @@ class SafetyNetClientServiceImpl(
             val db = SafetyNetDatabase(context)
             var requestID: Long = -1
             try {
-                val attestation = Attestation(context, packageName)
+                val attestation = Attestation(
+                    context,
+                    PackageSpoofUtils.spoofPackageName(context.getPackageManager(), packageName)
+                )
                 val safetyNetData = attestation.buildPayload(nonce)
 
                 requestID = db.insertRecentRequestStart(
